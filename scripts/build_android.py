@@ -4,12 +4,13 @@ Android APK 打包脚本
 将 React Native 项目打包成可安装的 Android APK
 
 使用方法:
-    python scripts/build_android.py [--release] [--clean] [--install]
+    python scripts/build_android.py [--release] [--clean] [--install] [--java-home PATH]
 
 参数:
-    --release   构建 Release 版本（默认 Debug）
-    --clean     构建前清理缓存
-    --install   构建完成后自动安装到连接的设备
+    --release       构建 Release 版本（默认 Debug）
+    --clean         构建前清理缓存
+    --install       构建完成后自动安装到连接的设备
+    --java-home     指定 Java 路径 (例如: /Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home)
 """
 
 import os
@@ -21,6 +22,20 @@ import secrets
 import string
 from pathlib import Path
 from datetime import datetime
+
+# ============================================================
+# 配置区域 - 可根据需要修改
+# ============================================================
+
+# 默认 Java 路径，设置为 None 则使用系统默认 Java
+# 示例:
+#   macOS (Homebrew): '/opt/homebrew/opt/openjdk@17'
+#   macOS (Oracle):   '/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home'
+#   Linux:            '/usr/lib/jvm/java-17-openjdk'
+#   Windows:          'C:\\Program Files\\Java\\jdk-17'
+DEFAULT_JAVA_HOME: str | None = '/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home'
+
+# ============================================================
 
 
 def get_project_root() -> Path:
@@ -350,6 +365,29 @@ def install_apk(release: bool = False):
         return False
 
 
+def setup_java_home(java_home: str):
+    """设置 JAVA_HOME 环境变量"""
+    if not java_home:
+        return
+
+    java_path = Path(java_home)
+    if not java_path.exists():
+        print(f'❌ 指定的 Java 路径不存在: {java_home}')
+        sys.exit(1)
+
+    # 验证是否是有效的 Java 目录
+    java_bin = java_path / 'bin' / 'java'
+    if not java_bin.exists() and not (java_path / 'bin' / 'java.exe').exists():
+        print(f'❌ 指定的路径不是有效的 Java 目录: {java_home}')
+        print('   请确保路径指向 JAVA_HOME (包含 bin/java)')
+        sys.exit(1)
+
+    os.environ['JAVA_HOME'] = str(java_path)
+    # 将 Java bin 目录添加到 PATH 前面
+    os.environ['PATH'] = str(java_path / 'bin') + os.pathsep + os.environ.get('PATH', '')
+    print(f'☕ 使用指定的 Java: {java_home}\n')
+
+
 def main():
     """主函数"""
     parser = argparse.ArgumentParser(description='Android APK 打包脚本')
@@ -357,6 +395,7 @@ def main():
     parser.add_argument('--clean', action='store_true', help='构建前清理缓存')
     parser.add_argument('--install', action='store_true', help='构建后自动安装到设备')
     parser.add_argument('--skip-deps', action='store_true', help='跳过依赖安装')
+    parser.add_argument('--java-home', type=str, help='指定 Java 路径')
     args = parser.parse_args()
 
     build_type = 'Release' if args.release else 'Debug'
@@ -364,6 +403,11 @@ def main():
     print('=' * 50)
     print(f'🚀 开始构建 Android {build_type} APK')
     print('=' * 50 + '\n')
+
+    # 0. 设置 Java 路径（命令行参数优先，否则使用默认配置）
+    java_home = args.java_home or DEFAULT_JAVA_HOME
+    if java_home:
+        setup_java_home(java_home)
 
     # 1. 检查环境
     check_environment()
