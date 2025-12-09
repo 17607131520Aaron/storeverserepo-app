@@ -10,6 +10,7 @@
     "test": "jest",
     "updateApp": "python scripts/update_app.py",
     "release:android": "python scripts/build_android.py --release",
+    "release:ios": "python scripts/build_ios.py",
     "postinstall": "patch-package"
   },
   "dependencies": {
