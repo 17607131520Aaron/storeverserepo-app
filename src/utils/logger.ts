@@ -3,6 +3,8 @@
  * 提供结构化日志记录，支持不同日志级别和输出目标
  */
 
+import { createDevWsLogger } from './devWsLogger';
+
 /** 日志级别 */
 export type TLogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -45,6 +47,16 @@ const LOG_LEVEL_COLORS: Record<TLogLevel, string> = {
 
 const RESET_COLOR = '\x1b[0m';
 
+// 与 Metro 共用的端口配置
+// 从项目根目录的 devConfig.js 读取，保持与 metro.config.js 一致
+// eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+const { metroPort } = { metroPort: 9000 };
+
+// 仅在开发环境启用的 WebSocket 日志转发地址
+// 这里指向 Metro bundler 的 WebSocket 服务，并复用 metroPort
+// 如需带 query（例如 role=logger），可以在这里自行拼接
+const LOG_WS_URL: string | undefined = __DEV__ ? `ws://localhost:${metroPort}/message` : undefined;
+
 /**
  * 格式化日志条目为字符串
  * 格式: [timestamp] [LEVEL] message {context}
@@ -75,6 +87,7 @@ export const createLogEntry = (
  */
 class Logger implements ILogger {
   private minLevel: TLogLevel;
+  private devWsLogger = createDevWsLogger(LOG_WS_URL);
 
   constructor() {
     // 生产环境默认过滤 debug 日志
@@ -114,17 +127,16 @@ class Logger implements ILogger {
   /**
    * 输出日志到控制台
    */
-  private log(
-    level: TLogLevel,
-    message: string,
-    context?: Record<string, unknown>,
-  ): void {
+  private log(level: TLogLevel, message: string, context?: Record<string, unknown>): void {
     if (!this.shouldLog(level)) {
       return;
     }
 
     const entry = createLogEntry(level, message, context);
     const formattedMessage = formatLogEntry(entry);
+
+    // 开发环境下，尝试将日志转发到 WebSocket（实际实现位于 devWsLogger.ts，可在任意 RN 项目中复用）
+    this.devWsLogger.forward(entry);
 
     // 开发环境使用彩色输出
     if (__DEV__) {

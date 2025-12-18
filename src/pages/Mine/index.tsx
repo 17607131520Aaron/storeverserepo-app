@@ -4,10 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 
 const Mine: React.FC = () => {
   const navigation = useNavigation();
+  const handleLogout = () => {
+    // navigation.navigate('Login');
+    console.log({ navigation });
+  };
   return (
     <View>
       <Text>Mine</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={handleLogout}>
         <Text>Go to Login</Text>
       </TouchableOpacity>
     </View>
