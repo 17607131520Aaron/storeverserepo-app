@@ -7,6 +7,7 @@ import {
   GestureResponderEvent,
   ViewStyle,
 } from 'react-native';
+import { ScanIcon } from '~/components/SvgIcons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '~/theme';
 
@@ -44,7 +45,7 @@ const ScanCard: React.FC<ScanCardProps> = ({ onScanPress, style }) => {
           onPress={onScanPress}
         >
           {/* 图标：scan-helper 类似取景框效果 */}
-          <Icon name='scan-helper' size={20} color='#fff' style={styles.icon} />
+          <ScanIcon color='#fff' size={20} />
           <Text style={styles.buttonText}>去扫码</Text>
         </TouchableOpacity>
       </View>
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     letterSpacing: 0.3,
+    marginLeft: 6,
   },
 });
 
