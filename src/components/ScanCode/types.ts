@@ -137,3 +137,13 @@ export interface IScanCodeProps {
   /** 容器样式 */
   style?: ViewStyle;
 }
+
+/**
+ * 扫码组件实例方法接口
+ */
+export interface IScanCodeRef {
+  /** 开启扫码 */
+  startScanning: () => void;
+  /** 关闭扫码 */
+  stopScanning: () => void;
+}

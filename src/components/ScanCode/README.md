@@ -206,8 +206,54 @@ interface IScanResultItem {
 1. **权限要求**：组件会自动检查相机权限，如果权限被拒绝，需要用户手动在设置中开启
 2. **设备兼容性**：需要设备支持相机功能
 3. **性能优化**：快速模式（fastMode）可以提升识别速度
-4. **区域限制**：vision-camera 不提供坐标信息，区域过滤功能需要坐标数据支持
-5. **声音提示**：beep 属性需要业务层实现声音播放逻辑
+4. **区域限制**：
+   - 标准版本（ScanCode）：不提供坐标信息，区域过滤功能受限
+   - 坐标版本（ScanCodeWithCoordinates）：需要安装 `react-native-reanimated`，支持完整的区域过滤功能
+5. **声音提示**：已实现基础的声音播放功能（使用震动反馈），如需自定义音效请安装 `react-native-sound`
+
+## 版本说明
+
+### 标准版本（ScanCode.tsx）
+
+- ✅ 无需额外依赖
+- ✅ 使用 `useCodeScanner`，简单高效
+- ⚠️ 不支持坐标信息，区域过滤功能受限
+
+### 坐标版本（ScanCodeWithCoordinates.tsx）
+
+- ✅ 支持完整的坐标信息
+- ✅ 支持精确的区域过滤
+- ⚠️ 需要安装 `react-native-reanimated`
+
+**安装坐标版本依赖：**
+
+```bash
+yarn add react-native-reanimated
+```
+
+然后在 `babel.config.js` 中添加：
+
+```javascript
+module.exports = {
+  presets: ['module:@react-native/babel-preset'],
+  plugins: [
+    // ... 其他插件
+    'react-native-reanimated/plugin', // 必须放在最后
+  ],
+};
+```
+
+**使用坐标版本：**
+
+```tsx
+import { ScanCodeWithCoordinates } from '~/components/ScanCode/ScanCodeWithCoordinates';
+
+<ScanCodeWithCoordinates
+  needLimitArea={true}
+  scanArea={{...}}
+  onBarCodeRead={handleBarCodeRead}
+/>
+```
 
 ## 示例
 
