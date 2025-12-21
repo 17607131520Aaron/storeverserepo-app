@@ -8,7 +8,6 @@ import {
   ViewStyle,
 } from 'react-native';
 import { ScanIcon } from '~/components/SvgIcons';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '~/theme';
 
 // 定义组件的 Props 接口
