@@ -3,6 +3,7 @@ import HomePage from '~/pages/Home';
 import LoginPage from '~/pages/Login';
 import ScanExamplePage from '~/pages/ScanExample';
 import AIAssistantPage from '~/pages/AIAssistant';
+import DataAnalysisPage from '~/pages/DataAnalysis';
 
 import MineHomePage from '~/pages/Mine';
 
@@ -52,6 +53,14 @@ const mineRoutes = [
     component: AIAssistantPage,
     options: {
       title: 'AI助手',
+      headerShown: true,
+    },
+  },
+  {
+    name: 'DataAnalysis',
+    component: DataAnalysisPage,
+    options: {
+      title: '数据分析',
       headerShown: true,
     },
   },
