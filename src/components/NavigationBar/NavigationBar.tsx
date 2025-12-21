@@ -120,8 +120,14 @@ export const NavigationBar: React.FC<INavigationBarProps> = ({
     }
 
     // 文字标题
+    // 检查 titleStyle 中的 textAlign，如果为 'left' 则使用左对齐容器
+    const textAlign = (titleStyle as any)?.textAlign;
+    const containerStyle = textAlign === 'left'
+      ? [styles.centerContainer, styles.centerContainerLeft]
+      : styles.centerContainer;
+
     return (
-      <View style={styles.centerContainer}>
+      <View style={containerStyle}>
         <Text
           numberOfLines={1}
           style={[styles.title, { color: textColor }, titleStyle]}
@@ -228,6 +234,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 8,
+  },
+  centerContainerLeft: {
+    alignItems: 'flex-start',
   },
   title: {
     fontSize: 17,

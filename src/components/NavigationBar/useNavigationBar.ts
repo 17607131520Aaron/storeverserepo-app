@@ -6,6 +6,7 @@
 
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import type { TextStyle } from 'react-native';
 
 import type { INavBarButton, INavBarSearchConfig, INavigationBarProps } from './types';
 
@@ -33,6 +34,8 @@ export interface INavigationBarOptions {
   backgroundColor?: string;
   /** 标题颜色 */
   titleColor?: string;
+  /** 标题样式 */
+  titleStyle?: TextStyle;
   /** 图标颜色 */
   tintColor?: string;
   /** 是否显示底部边框 */
@@ -81,6 +84,8 @@ export interface IUseNavigationBarReturn {
   setBackgroundColor: (color: string) => void;
   /** 设置标题颜色 */
   setTitleColor: (color: string) => void;
+  /** 设置标题样式 */
+  setTitleStyle: (style: TextStyle) => void;
   /** 设置图标颜色 */
   setTintColor: (color: string) => void;
   /** 设置是否显示底部边框 */
@@ -231,6 +236,14 @@ export function useNavigationBar(initialOptions?: INavigationBarOptions): IUseNa
     [updateNavBarOptions],
   );
 
+  // 设置标题样式
+  const setTitleStyle = useCallback(
+    (titleStyle: TextStyle) => {
+      updateNavBarOptions({ titleStyle });
+    },
+    [updateNavBarOptions],
+  );
+
   // 设置图标颜色
   const setTintColor = useCallback(
     (tintColor: string) => {
@@ -276,6 +289,7 @@ export function useNavigationBar(initialOptions?: INavigationBarOptions): IUseNa
     setVisible,
     setBackgroundColor,
     setTitleColor,
+    setTitleStyle,
     setTintColor,
     setShowBorder,
     setTransparent,

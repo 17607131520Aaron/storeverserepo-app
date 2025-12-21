@@ -11,35 +11,35 @@ interface ScanCodeItem {
 
 const SNScannerScreen: React.FC<INavBarProps> = ({ navBar }) => {
   const [scannedCodes, setScannedCodes] = useState<string[]>([]);
+  const [flashlightOn, setFlashlightOn] = useState(false);
   const scanCodeRef = useRef<IScanCodeRef>(null);
   const totalCount: number = 98;
 
-  // 初始化导航栏
+  // 初始化导航栏：标题左对齐
   useEffect(() => {
-    navBar.setTitle(`扫码入库 (0/${totalCount})`);
-    navBar.setRightButtons([
-      {
-        key: 'clear',
-        text: '清空',
-        onPress: () => {
-          setScannedCodes([]);
-        },
-        disabled: scannedCodes.length === 0,
-      },
-    ]);
+    navBar.setTitleStyle({ textAlign: 'left' });
   }, []);
 
-  // 当扫描数量变化时，更新导航栏标题和右侧按钮状态
+  // 当扫描数量变化时，更新导航栏标题和右侧按钮
   useEffect(() => {
     navBar.setTitle(`扫码入库 (${scannedCodes.length}/${totalCount})`);
     navBar.setRightButtons([
       {
-        key: 'clear',
-        text: '清空',
+        key: 'manual',
+        text: '手动录入',
         onPress: () => {
-          setScannedCodes([]);
+          // TODO: 实现手动录入功能
+          console.log('手动录入');
         },
-        disabled: scannedCodes.length === 0,
+        textStyle: { color: '#007AFF' },
+      },
+      {
+        key: 'flashlight',
+        text: '手电筒',
+        onPress: () => {
+          setFlashlightOn((prev) => !prev);
+        },
+        textStyle: { color: '#007AFF' },
       },
     ]);
   }, [scannedCodes.length, totalCount, navBar]);
@@ -72,6 +72,7 @@ const SNScannerScreen: React.FC<INavBarProps> = ({ navBar }) => {
         vibrate={true}
         beep={true}
         needAnim={true}
+        flashlight={flashlightOn}
         onBarCodeRead={handleBarCodeRead}
         style={styles.scannerContainer}
       />
