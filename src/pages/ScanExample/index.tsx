@@ -14,7 +14,7 @@ const SNScannerScreen: React.FC = () => {
   const totalCount: number = 98;
 
   const handleComplete = () => {
-    console.log('录入完成');
+    console.log('录入完成', scannedCodes);
   };
 
   const handleBarCodeRead = (result: IBarCodeReadResult) => {
