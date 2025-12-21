@@ -6,7 +6,7 @@
 export { ScanCode } from './ScanCode';
 
 // 坐标版本（需要 react-native-reanimated）
-export { ScanCodeWithCoordinates } from './ScanCodeWithCoordinates';
+// export { ScanCodeWithCoordinates } from './ScanCodeWithCoordinates';
 
 // 常量和类型
 export { SUPPORT_CODE_TYPE, FILTER_BY_TYPE } from './types';
