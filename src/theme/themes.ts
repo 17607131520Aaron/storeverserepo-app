@@ -24,5 +24,5 @@ export const darkTheme: ITheme = {
   spacing,
   typography,
   shadows,
-  isDark: true,
+  isDark: false,
 };

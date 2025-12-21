@@ -5,10 +5,7 @@
 import React, { createContext, type ReactNode, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 
-import {
-  type TTheme as TThemeMode,
-  useAppStore,
-} from '../store/common/appStore';
+import { type TTheme as TThemeMode, useAppStore } from '../store/common/appStore';
 
 import { darkTheme, lightTheme } from './themes';
 
@@ -35,8 +32,8 @@ export interface IThemeProviderProps {
 /** 主题提供者组件 */
 export const ThemeProvider: React.FC<IThemeProviderProps> = ({ children }) => {
   const systemColorScheme = useColorScheme();
-  const themeMode = useAppStore(state => state.theme);
-  const setTheme = useAppStore(state => state.setTheme);
+  const themeMode = useAppStore((state) => state.theme);
+  const setTheme = useAppStore((state) => state.setTheme);
 
   const theme = useMemo(() => {
     if (themeMode === 'system') {
@@ -54,9 +51,5 @@ export const ThemeProvider: React.FC<IThemeProviderProps> = ({ children }) => {
     [theme, themeMode, setTheme],
   );
 
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };

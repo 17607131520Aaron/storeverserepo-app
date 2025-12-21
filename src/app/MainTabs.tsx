@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { getTabsByRole } from '~/app/tabConfig';
-// import { NavigationBar } from '~/components/NavigationBar';
 import { useUserStore } from '~/store';
 
 const Tab = createBottomTabNavigator();

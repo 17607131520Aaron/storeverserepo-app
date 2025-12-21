@@ -2,8 +2,6 @@
  * 各角色的 Tab 配置
  */
 
-// import { getTabHomeRoutes } from '~/routers';
-
 import type { ITabConfig } from './type';
 import type { TUserRole } from '~/store';
 
