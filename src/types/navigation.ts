@@ -8,6 +8,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   Login: undefined;
   Home: undefined;
+  ScanExample: undefined;
   MineHome: undefined;
   About: undefined;
 };
