@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 # 应用名称常量 - 在这里修改应用名称
-APP_NAME = "个人助理"
+APP_NAME = "智能AI仓储助手"
 
 def get_project_root():
     """获取项目根目录"""

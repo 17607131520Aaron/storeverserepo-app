@@ -1,97 +1,186 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 仓库管理系统 (Storeverse Repo App)
 
-# Getting Started
+一个基于 React Native 开发的智能仓储管理移动应用，专注于提供高效的扫码入库、物料管理等仓储操作功能。
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 项目简介
 
-## Step 1: Start Metro
+本项目是一个面向仓储管理的移动端应用，提供了完整的扫码功能、物料管理、用户权限管理等功能模块。支持 Android 和 iOS 双平台运行，采用现代化的技术栈构建，具有良好的用户体验和扩展性。
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## ✨ 主要功能
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **扫码功能**
+  - 支持二维码和条码扫描
+  - 扫码入库管理
+  - 扫描历史记录
+  - 闪光灯、声音、震动等扫描设置
+
+- **用户系统**
+  - 用户登录认证
+  - 基于角色的权限管理
+  - 个人信息管理
+
+- **导航系统**
+  - 自定义导航栏组件
+  - 底部标签导航
+  - 堆栈式页面导航
+  - 支持搜索框、多按钮等自定义配置
+
+- **主题系统**
+  - 支持明暗主题切换
+  - 自定义主题颜色
+  - 响应式布局适配
+
+- **状态管理**
+  - 基于 Zustand 的状态管理
+  - 数据持久化存储
+  - 业务模块化 Store
+
+## 🛠 技术栈
+
+- **框架**: React Native 0.82.1
+- **语言**: TypeScript
+- **导航**: React Navigation (Bottom Tabs + Stack Navigator)
+- **状态管理**: Zustand 5.0.9
+- **扫码**: react-native-vision-camera, react-native-camera-kit
+- **UI 组件**:
+  - react-native-safe-area-context
+  - react-native-svg
+  - react-native-vector-icons
+- **工具库**:
+  - axios (网络请求)
+  - dayjs (时间处理)
+  - lodash (工具函数)
+
+## 📦 项目结构
+
+```
+src/
+├── app/              # 应用入口和路由配置
+├── assets/           # 静态资源
+├── components/       # 公共组件
+│   ├── ErrorBoundary/    # 错误边界
+│   ├── NavigationBar/    # 导航栏组件
+│   ├── SafeAreaWrapper/  # 安全区域包装器
+│   ├── ScanCode/         # 扫码组件
+│   ├── SplashScreen/     # 启动屏
+│   └── SvgIcons/         # SVG 图标
+├── config/           # 配置文件
+├── hooks/            # 自定义 Hooks
+├── pages/            # 页面组件
+│   ├── About/        # 关于页面
+│   ├── Home/         # 首页
+│   ├── Login/        # 登录页面
+│   ├── Mine/         # 个人中心
+│   └── ScanExample/  # 扫码示例页面
+├── routers/          # 路由配置
+├── store/            # 状态管理
+│   ├── business/     # 业务 Store
+│   ├── common/       # 公共 Store
+│   └── core/         # Store 核心逻辑
+├── theme/            # 主题配置
+├── types/            # TypeScript 类型定义
+└── utils/            # 工具函数
+```
+
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js >= 20
+- React Native 开发环境（请参考 [React Native 环境设置指南](https://reactnative.dev/docs/set-up-your-environment)）
+
+### 安装依赖
 
 ```sh
-# Using npm
+# 使用 Yarn（推荐）
+yarn install
+
+# 或使用 npm
+npm install
+```
+
+### 运行项目
+
+#### Step 1: 启动 Metro 服务器
+
+首先需要启动 **Metro**，这是 React Native 的 JavaScript 打包工具。
+
+在项目根目录运行以下命令启动 Metro 开发服务器：
+
+```sh
+# 使用 npm
 npm start
 
-# OR using Yarn
+# 或使用 Yarn
 yarn start
 ```
 
-## Step 2: Build and run your app
+#### Step 2: 构建并运行应用
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Metro 运行后，在项目根目录打开新的终端窗口，使用以下命令构建并运行 Android 或 iOS 应用：
 
-### Android
+**Android:**
 
 ```sh
-# Using npm
+# 使用 npm
 npm run android
 
-# OR using Yarn
+# 或使用 Yarn
 yarn android
 ```
 
-### iOS
+**iOS:**
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+对于 iOS，需要先安装 CocoaPods 依赖（首次克隆项目或更新原生依赖后需要运行）。
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+首次创建项目时，运行 Ruby bundler 安装 CocoaPods：
 
 ```sh
 bundle install
 ```
 
-Then, and every time you update your native dependencies, run:
+然后，每次更新原生依赖后，运行：
 
 ```sh
 bundle exec pod install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+更多信息请参考 [CocoaPods 入门指南](https://guides.cocoapods.org/using/getting-started.html)。
 
 ```sh
-# Using npm
+# 使用 npm
 npm run ios
 
-# OR using Yarn
+# 或使用 Yarn
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+如果一切配置正确，您应该能看到应用在 Android 模拟器、iOS 模拟器或连接的设备上运行。
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+您也可以直接在 Android Studio 或 Xcode 中构建和运行应用。
 
-## Step 3: Modify your app
+#### 开发提示
 
-Now that you have successfully run the app, let's make changes!
+- 修改代码后，应用会自动更新（Fast Refresh）
+- 强制重载：Android 按两次 <kbd>R</kbd> 键或从开发者菜单选择"Reload"（<kbd>Ctrl</kbd> + <kbd>M</kbd> / <kbd>Cmd ⌘</kbd> + <kbd>M</kbd>）
+- iOS 模拟器：按 <kbd>R</kbd> 键重载
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 📚 更多信息
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- 查看 [组件文档](./docs/components/README.md) 了解项目组件使用说明
+- 查看 [React Native 官方文档](https://reactnative.dev/docs/getting-started) 了解更多 React Native 知识
+- 如需将代码集成到现有应用，请参考 [集成指南](https://reactnative.dev/docs/integration-with-existing-apps)
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
+## 🐛 故障排查
 
 If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-# Learn More
+## 🔗 相关资源
 
-To learn more about React Native, take a look at the following resources:
+了解更多 React Native 相关内容，请参考以下资源：
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- [React Native 官网](https://reactnative.dev) - 了解更多 React Native 信息
+- [环境设置指南](https://reactnative.dev/docs/environment-setup) - React Native 环境配置概览
+- [入门教程](https://reactnative.dev/docs/getting-started) - React Native 基础知识导览
+- [官方博客](https://reactnative.dev/blog) - 阅读最新的 React Native 博客文章
+- [GitHub 仓库](https://github.com/facebook/react-native) - React Native 开源代码仓库
