@@ -36,10 +36,11 @@ export const ThemeProvider: React.FC<IThemeProviderProps> = ({ children }) => {
   const setTheme = useAppStore((state) => state.setTheme);
 
   const theme = useMemo(() => {
-    if (themeMode === 'system') {
-      return systemColorScheme === 'dark' ? darkTheme : lightTheme;
-    }
-    return themeMode === 'dark' ? darkTheme : lightTheme;
+    // if (themeMode === 'system') {
+    //   return systemColorScheme === 'dark' ? darkTheme : lightTheme;
+    // }
+    // return themeMode === 'dark' ? darkTheme : lightTheme;
+    return lightTheme;
   }, [themeMode, systemColorScheme]);
 
   const contextValue = useMemo<IThemeContext>(
