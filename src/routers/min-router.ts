@@ -2,6 +2,7 @@ import AboutPage from '~/pages/About';
 import HomePage from '~/pages/Home';
 import LoginPage from '~/pages/Login';
 import ScanExamplePage from '~/pages/ScanExample';
+import AIAssistantPage from '~/pages/AIAssistant';
 
 import MineHomePage from '~/pages/Mine';
 
@@ -43,6 +44,14 @@ const mineRoutes = [
     component: AboutPage,
     options: {
       title: '关于',
+      headerShown: true,
+    },
+  },
+  {
+    name: 'AIAssistant',
+    component: AIAssistantPage,
+    options: {
+      title: 'AI助手',
       headerShown: true,
     },
   },

@@ -7,7 +7,7 @@ import type { TUserRole } from '~/store';
 
 import MineHome from '~/pages/Mine';
 import Home from '~/pages/Home';
-
+import AIAssistant from '~/pages/AIAssistant';
 const MINE_TAB: ITabConfig = {
   name: 'MineTab',
   label: '我的',
@@ -25,6 +25,15 @@ const HOME_TAB: ITabConfig = {
   moduleKey: 'home',
 };
 
+//AI助手
+const AI_ASSISTANT_TAB: ITabConfig = {
+  name: 'AIAssistantTab',
+  label: 'AI助手',
+  icon: '🤖',
+  component: AIAssistant,
+  moduleKey: 'aiAssistant',
+};
+
 // ==================== 各角色的 Tab 配置 ====================
 const ROLE_TABS: Record<TUserRole, ITabConfig[]> = {
   engineer: [MINE_TAB],
@@ -33,7 +42,7 @@ const ROLE_TABS: Record<TUserRole, ITabConfig[]> = {
 };
 
 // 默认 Tab 配置（未登录或角色未知时）
-const DEFAULT_TABS: ITabConfig[] = [HOME_TAB, MINE_TAB];
+const DEFAULT_TABS: ITabConfig[] = [HOME_TAB, MINE_TAB, AI_ASSISTANT_TAB];
 
 /**
  * 根据角色获取 Tab 配置
