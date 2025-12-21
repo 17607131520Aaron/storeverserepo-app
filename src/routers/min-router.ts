@@ -1,7 +1,7 @@
 import AboutPage from '~/pages/About';
 import HomePage from '~/pages/Home';
 import LoginPage from '~/pages/Login';
-import ScanExamplePage from '~/pages/ScanExample/test';
+import ScanExamplePage from '~/pages/ScanExample';
 
 import MineHomePage from '~/pages/Mine';
 

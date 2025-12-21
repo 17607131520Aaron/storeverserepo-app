@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, FlatList, ListRenderItem, TouchableOpacity } from 'react-native';
+import { ScanCode, type IScanCodeRef, type IBarCodeReadResult } from '~/components/ScanCode';
 import styles from './index.style';
 
 interface ScanCodeItem {
@@ -9,10 +10,19 @@ interface ScanCodeItem {
 
 const SNScannerScreen: React.FC = () => {
   const [scannedCodes, setScannedCodes] = useState<string[]>([]);
+  const scanCodeRef = useRef<IScanCodeRef>(null);
   const totalCount: number = 98;
 
   const handleComplete = () => {
     console.log('录入完成');
+  };
+
+  const handleBarCodeRead = (result: IBarCodeReadResult) => {
+    const code = result.data;
+    // 避免重复添加相同的码
+    if (!scannedCodes.includes(code)) {
+      setScannedCodes((prev) => [...prev, code]);
+    }
   };
 
   const sncodeList = scannedCodes.map((item, index) => ({ id: index + 1, value: item }));
@@ -25,7 +35,15 @@ const SNScannerScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.scannerContainer}></View>
+      <ScanCode
+        ref={scanCodeRef}
+        defaultCanScan={true}
+        vibrate={true}
+        beep={true}
+        needAnim={true}
+        onBarCodeRead={handleBarCodeRead}
+        style={styles.scannerContainer}
+      />
       <Text style={styles.scanInstruction}>请扫描物料编码/串码SN~</Text>
       <View style={styles.itemCard}>
         <View style={styles.itemImagePlaceholder}>

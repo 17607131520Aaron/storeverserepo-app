@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
   scannerContainer: {
     width: '100%',
     height: 140,
-    backgroundColor: 'red',
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   scanInstruction: {
     textAlign: 'center',
