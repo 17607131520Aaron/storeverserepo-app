@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, FlatList, ListRenderItem, TouchableOpacity } from 'react-native';
 import { ScanCode, type IScanCodeRef, type IBarCodeReadResult } from '~/components/ScanCode';
+import type { INavBarProps } from '~/components/NavigationBar';
 import styles from './index.style';
 
 interface ScanCodeItem {
@@ -8,10 +9,40 @@ interface ScanCodeItem {
   value: string;
 }
 
-const SNScannerScreen: React.FC = () => {
+const SNScannerScreen: React.FC<INavBarProps> = ({ navBar }) => {
   const [scannedCodes, setScannedCodes] = useState<string[]>([]);
   const scanCodeRef = useRef<IScanCodeRef>(null);
   const totalCount: number = 98;
+
+  // 初始化导航栏
+  useEffect(() => {
+    navBar.setTitle(`扫码入库 (0/${totalCount})`);
+    navBar.setRightButtons([
+      {
+        key: 'clear',
+        text: '清空',
+        onPress: () => {
+          setScannedCodes([]);
+        },
+        disabled: scannedCodes.length === 0,
+      },
+    ]);
+  }, []);
+
+  // 当扫描数量变化时，更新导航栏标题和右侧按钮状态
+  useEffect(() => {
+    navBar.setTitle(`扫码入库 (${scannedCodes.length}/${totalCount})`);
+    navBar.setRightButtons([
+      {
+        key: 'clear',
+        text: '清空',
+        onPress: () => {
+          setScannedCodes([]);
+        },
+        disabled: scannedCodes.length === 0,
+      },
+    ]);
+  }, [scannedCodes.length, totalCount, navBar]);
 
   const handleComplete = () => {
     console.log('录入完成', scannedCodes);

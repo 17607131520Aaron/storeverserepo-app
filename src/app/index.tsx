@@ -4,7 +4,7 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
-import { NavigationBar } from '~/components/NavigationBar';
+import { NavigationBar, withNavBarProps } from '~/components/NavigationBar';
 import { SafeAreaWrapper } from '~/components/SafeAreaWrapper';
 import { allRoutes } from '~/routers';
 import MainTabsScreen from './MainTabs';
@@ -51,13 +51,24 @@ const AppContent = (): React.JSX.Element => {
         screenOptions={{
           headerShown: true,
           animation: 'slide_from_right',
-          header: ({ options }) => (
-            <NavigationBar
-              showBack
-              showBorder={false}
-              title={typeof options.title === 'string' ? options.title : undefined}
-            />
-          ),
+          header: ({ options }) => {
+            // 从 options.navBar 读取页面设置的导航栏配置
+            const navBarConfig = (options as any).navBar || {};
+
+            // 合并默认配置和页面自定义配置
+            // 如果页面设置了 title，优先使用 navBar 中的 title，否则使用 options.title
+            const title =
+              navBarConfig.title ?? (typeof options.title === 'string' ? options.title : undefined);
+
+            return (
+              <NavigationBar
+                {...navBarConfig}
+                title={title}
+                showBack={navBarConfig.showBack ?? true}
+                showBorder={navBarConfig.showBorder ?? false}
+              />
+            );
+          },
         }}
       >
         <RootStack.Screen
@@ -67,8 +78,12 @@ const AppContent = (): React.JSX.Element => {
         />
         {allRoutes.map((route) => {
           const hasHeader = route.options?.headerShown !== false;
+
+          // 先应用 withNavBarProps，注入 navBar prop
+          // 然后应用 withSafeArea，处理安全区域
+          const ComponentWithNavBar = withNavBarProps(route.component, route.navBarOptions);
           const WrappedComponent = withSafeArea(
-            route.component,
+            ComponentWithNavBar,
             route.useSafeArea ?? true,
             hasHeader,
           );
@@ -77,13 +92,24 @@ const AppContent = (): React.JSX.Element => {
           const routeOptions = {
             ...route.options,
             header: hasHeader
-              ? ({ options }: any) => (
-                  <NavigationBar
-                    showBack
-                    showBorder={false}
-                    title={typeof options.title === 'string' ? options.title : null}
-                  />
-                )
+              ? ({ options }: any) => {
+                  // 从 options.navBar 读取页面设置的导航栏配置
+                  const navBarConfig = options.navBar || {};
+
+                  // 合并默认配置和页面自定义配置
+                  const title =
+                    navBarConfig.title ??
+                    (typeof options.title === 'string' ? options.title : undefined);
+
+                  return (
+                    <NavigationBar
+                      {...navBarConfig}
+                      title={title}
+                      showBack={navBarConfig.showBack ?? true}
+                      showBorder={navBarConfig.showBorder ?? false}
+                    />
+                  );
+                }
               : undefined,
           };
 

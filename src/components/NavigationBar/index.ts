@@ -5,6 +5,7 @@
 export { NavigationBar, default } from './NavigationBar';
 export { useNavigationBar } from './useNavigationBar';
 export { withNavigationBar } from './withNavigationBar';
+export { withNavBarProps } from './withNavBarProps';
 export type {
   INavigationBarProps,
   INavBarButton,
@@ -19,3 +20,4 @@ export type {
   IWithNavigationBarOptions,
   IBackIconConfig,
 } from './withNavigationBar';
+export type { INavBarProps } from './withNavBarProps';
