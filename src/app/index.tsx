@@ -4,6 +4,7 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary';
+import { GlobalAlert } from '~/components/GlobalAlert';
 import { NavigationBar, withNavBarProps } from '~/components/NavigationBar';
 import { SafeAreaWrapper } from '~/components/SafeAreaWrapper';
 import { allRoutes } from '~/routers';
@@ -133,6 +134,7 @@ const App = (): React.JSX.Element => {
       <ErrorBoundary>
         <ThemeProvider>
           <AppContent />
+          <GlobalAlert />
         </ThemeProvider>
       </ErrorBoundary>
     </SafeAreaProvider>
