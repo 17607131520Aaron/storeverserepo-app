@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const RegisterPage: React.FC = () => {
   const navigation = useNavigation();
@@ -118,226 +110,213 @@ const RegisterPage: React.FC = () => {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps='handled'
+        keyboardDismissMode='on-drag'
+        enableOnAndroid
+        extraScrollHeight={60}
+        contentInsetAdjustmentBehavior='always'
+        showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps='handled'
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.card}>
-            <View style={styles.cardTop}>
-              {/* Header Section */}
-              <View style={styles.headerSection}>
-                <View style={styles.headerContent}>
-                  <Text style={styles.title}>创建账号</Text>
-                  <Text style={styles.subtitle}>请填写以下信息完成账号注册</Text>
-                </View>
-                <View style={styles.tag}>
-                  <Text style={styles.tagText}>Beta · 内部环境</Text>
-                </View>
+        <View style={styles.card}>
+          <View style={styles.cardTop}>
+ 
+            <View style={styles.headerSection}>
+              <View style={styles.headerContent}>
+                <Text style={styles.title}>创建账号</Text>
+                <Text style={styles.subtitle}>请填写以下信息完成账号注册</Text>
               </View>
-
-              {/* Form Section */}
-              <View style={styles.formSection}>
-                {/* 账号 */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.required}>*</Text>
-                    <Text style={styles.label}>账号</Text>
-                  </View>
-                  <View
-                    style={[styles.inputContainer, errors.account && styles.inputContainerError]}
-                  >
-                    <TextInput
-                      style={styles.input}
-                      placeholder='请输入账号'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.account}
-                      onChangeText={(v) => updateFormData('account', v)}
-                      autoCapitalize='none'
-                      returnKeyType='next'
-                      autoCorrect={false}
-                    />
-                  </View>
-                  {errors.account && <Text style={styles.errorText}>{errors.account}</Text>}
-                </View>
-
-                {/* 用户名 */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.required}>*</Text>
-                    <Text style={styles.label}>用户名</Text>
-                  </View>
-                  <View
-                    style={[styles.inputContainer, errors.username && styles.inputContainerError]}
-                  >
-                    <TextInput
-                      style={styles.input}
-                      placeholder='请输入用户名'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.username}
-                      onChangeText={(v) => updateFormData('username', v)}
-                      autoCapitalize='none'
-                      returnKeyType='next'
-                      autoCorrect={false}
-                    />
-                  </View>
-                  {errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
-                </View>
-
-                {/* 邮箱（可选） */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.label}>邮箱（可选）</Text>
-                  </View>
-                  <View style={[styles.inputContainer, errors.email && styles.inputContainerError]}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder='请输入邮箱地址'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.email}
-                      onChangeText={(v) => updateFormData('email', v)}
-                      autoCapitalize='none'
-                      keyboardType='email-address'
-                      returnKeyType='next'
-                      autoCorrect={false}
-                    />
-                  </View>
-                  {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-                </View>
-
-                {/* 手机号 */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.label}>手机号（可选）</Text>
-                  </View>
-                  <View style={[styles.inputContainer, errors.phone && styles.inputContainerError]}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder='请输入手机号'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.phone}
-                      onChangeText={(v) => updateFormData('phone', v)}
-                      keyboardType='phone-pad'
-                      maxLength={11}
-                      returnKeyType='next'
-                    />
-                  </View>
-                  {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
-                </View>
-
-                {/* 密码 */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.required}>*</Text>
-                    <Text style={styles.label}>密码</Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.inputContainer,
-                      styles.passwordContainer,
-                      errors.password && styles.inputContainerError,
-                    ]}
-                  >
-                    <TextInput
-                      style={[styles.input, styles.passwordInput]}
-                      placeholder='请输入密码（至少 6 位）'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.password}
-                      onChangeText={(v) => updateFormData('password', v)}
-                      secureTextEntry={!showPassword}
-                      autoCapitalize='none'
-                      returnKeyType='next'
-                      autoCorrect={false}
-                    />
-                    <TouchableOpacity
-                      style={styles.eyeBtn}
-                      onPress={() => setShowPassword((prev) => !prev)}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={styles.eyeText}>{showPassword ? '隐藏' : '显示'}</Text>
-                    </TouchableOpacity>
-                  </View>
-                  {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-                </View>
-
-                {/* 确认密码 */}
-                <View style={styles.field}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.required}>*</Text>
-                    <Text style={styles.label}>确认密码</Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.inputContainer,
-                      styles.passwordContainer,
-                      errors.confirmPassword && styles.inputContainerError,
-                    ]}
-                  >
-                    <TextInput
-                      style={[styles.input, styles.passwordInput]}
-                      placeholder='请再次输入密码'
-                      placeholderTextColor='#9ca3af'
-                      value={formData.confirmPassword}
-                      onChangeText={(v) => updateFormData('confirmPassword', v)}
-                      secureTextEntry={!showConfirmPassword}
-                      autoCapitalize='none'
-                      returnKeyType='done'
-                      autoCorrect={false}
-                    />
-                    <TouchableOpacity
-                      style={styles.eyeBtn}
-                      onPress={() => setShowConfirmPassword((prev) => !prev)}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={styles.eyeText}>{showConfirmPassword ? '隐藏' : '显示'}</Text>
-                    </TouchableOpacity>
-                  </View>
-                  {errors.confirmPassword && (
-                    <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-                  )}
-                </View>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>Beta · 内部环境</Text>
               </View>
             </View>
 
-            {/* Bottom Section：按钮 + 底部文案 固定在卡片底部 */}
-            <View style={styles.cardBottom}>
-              {/* 注册按钮 */}
-              <TouchableOpacity
-                style={styles.loginBtn}
-                onPress={handleRegister}
-                activeOpacity={0.8}
-              >
-                <LinearGradient
-                  colors={['#3b82f6', '#2563eb', '#1d4ed8']}
-                  style={styles.loginBtnGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text style={styles.loginText}>注册账号</Text>
-                </LinearGradient>
-              </TouchableOpacity>
 
-              {/* 去登录 */}
-              <View style={styles.footerRow}>
-                <Text style={styles.footerText}>已经有账号？</Text>
-                <TouchableOpacity onPress={handleGoLogin} activeOpacity={0.7}>
-                  <Text style={styles.footerLink}>去登录</Text>
-                </TouchableOpacity>
+            <View style={styles.formSection}>
+
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.required}>*</Text>
+                  <Text style={styles.label}>账号</Text>
+                </View>
+                <View style={[styles.inputContainer, errors.account && styles.inputContainerError]}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder='请输入账号'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.account}
+                    onChangeText={(v) => updateFormData('account', v)}
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    autoCorrect={false}
+                  />
+                </View>
+                {errors.account && <Text style={styles.errorText}>{errors.account}</Text>}
               </View>
 
-              {/* Footer Section */}
-              {/* <View style={styles.footerSection}>
-                <Text style={styles.hintText}>注册后可使用账号登录管理控制台</Text>
-                <Text style={styles.copyrightText}>© 2026 某未知名系统</Text>
-              </View> */}
+
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.required}>*</Text>
+                  <Text style={styles.label}>用户名</Text>
+                </View>
+                <View
+                  style={[styles.inputContainer, errors.username && styles.inputContainerError]}
+                >
+                  <TextInput
+                    style={styles.input}
+                    placeholder='请输入用户名'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.username}
+                    onChangeText={(v) => updateFormData('username', v)}
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    autoCorrect={false}
+                  />
+                </View>
+                {errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
+              </View>
+
+   
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.label}>邮箱（可选）</Text>
+                </View>
+                <View style={[styles.inputContainer, errors.email && styles.inputContainerError]}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder='请输入邮箱地址'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.email}
+                    onChangeText={(v) => updateFormData('email', v)}
+                    autoCapitalize='none'
+                    keyboardType='email-address'
+                    returnKeyType='next'
+                    autoCorrect={false}
+                  />
+                </View>
+                {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+              </View>
+
+   
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.label}>手机号（可选）</Text>
+                </View>
+                <View style={[styles.inputContainer, errors.phone && styles.inputContainerError]}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder='请输入手机号'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.phone}
+                    onChangeText={(v) => updateFormData('phone', v)}
+                    keyboardType='phone-pad'
+                    maxLength={11}
+                    returnKeyType='next'
+                  />
+                </View>
+                {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
+              </View>
+
+    
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.required}>*</Text>
+                  <Text style={styles.label}>密码</Text>
+                </View>
+                <View
+                  style={[
+                    styles.inputContainer,
+                    styles.passwordContainer,
+                    errors.password && styles.inputContainerError,
+                  ]}
+                >
+                  <TextInput
+                    style={[styles.input, styles.passwordInput]}
+                    placeholder='请输入密码（至少 6 位）'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.password}
+                    onChangeText={(v) => updateFormData('password', v)}
+                    secureTextEntry={!showPassword}
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    autoCorrect={false}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeBtn}
+                    onPress={() => setShowPassword((prev) => !prev)}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.eyeText}>{showPassword ? '隐藏' : '显示'}</Text>
+                  </TouchableOpacity>
+                </View>
+                {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+              </View>
+
+
+              <View style={styles.field}>
+                <View style={styles.labelRow}>
+                  <Text style={styles.required}>*</Text>
+                  <Text style={styles.label}>确认密码</Text>
+                </View>
+                <View
+                  style={[
+                    styles.inputContainer,
+                    styles.passwordContainer,
+                    errors.confirmPassword && styles.inputContainerError,
+                  ]}
+                >
+                  <TextInput
+                    style={[styles.input, styles.passwordInput]}
+                    placeholder='请再次输入密码'
+                    placeholderTextColor='#9ca3af'
+                    value={formData.confirmPassword}
+                    onChangeText={(v) => updateFormData('confirmPassword', v)}
+                    secureTextEntry={!showConfirmPassword}
+                    autoCapitalize='none'
+                    returnKeyType='done'
+                    autoCorrect={false}
+                  />
+                  <TouchableOpacity
+                    style={styles.eyeBtn}
+                    onPress={() => setShowConfirmPassword((prev) => !prev)}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.eyeText}>{showConfirmPassword ? '隐藏' : '显示'}</Text>
+                  </TouchableOpacity>
+                </View>
+                {errors.confirmPassword && (
+                  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                )}
+              </View>
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+
+
+          <View style={styles.cardBottom}>
+    
+            <TouchableOpacity style={styles.loginBtn} onPress={handleRegister} activeOpacity={0.8}>
+              <LinearGradient
+                colors={['#3b82f6', '#2563eb', '#1d4ed8']}
+                style={styles.loginBtnGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.loginText}>注册账号</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+
+
+            <View style={styles.footerRow}>
+              <Text style={styles.footerText}>已经有账号？</Text>
+              <TouchableOpacity onPress={handleGoLogin} activeOpacity={0.7}>
+                <Text style={styles.footerLink}>去登录</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
     </LinearGradient>
   );
 };
@@ -353,6 +332,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingVertical: 40,
+    paddingBottom: 80,
     justifyContent: 'center',
     minHeight: '100%',
   },

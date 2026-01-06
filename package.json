@@ -35,6 +35,7 @@
     "react-native-config": "^1.6.1",
     "react-native-gesture-handler": "^2.29.1",
     "react-native-get-random-values": "^2.0.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-logs": "^5.5.0",
     "react-native-marquee-ab": "^1.2.6",

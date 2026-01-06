@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingVertical: 40,
+    paddingBottom: 80,
     justifyContent: 'center',
     minHeight: '100%',
   },
