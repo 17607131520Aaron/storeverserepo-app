@@ -1,9 +1,10 @@
 import AboutPage from '~/pages/About';
 import HomePage from '~/pages/Home';
 import LoginPage from '~/pages/Login';
+import MineHomePage from '~/pages/Mine';
+import RegisterPage from '~/pages/Register';
 import ScanExamplePage from '~/pages/ScanExample';
 
-import MineHomePage from '~/pages/Mine';
 
 const mineRoutes = [
   {
@@ -11,6 +12,14 @@ const mineRoutes = [
     component: LoginPage,
     options: {
       title: '登录',
+      headerShown: true,
+    },
+  },
+  {
+    name: 'Register',
+    component: RegisterPage,
+    options: {
+      title: '注册',
       headerShown: true,
     },
   },

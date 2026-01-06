@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const Mine: React.FC = () => {
   const navigation = useNavigation();
   const handleLogout = () => {
-    // navigation.navigate('Login');
+    navigation.navigate('Login');
     console.log({ navigation });
   };
   return (
